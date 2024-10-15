@@ -1,12 +1,4 @@
-import PropTypes from "prop-types";
-
-export default function Task({ task, onArchiveTask, onPinTask }) {
-  if (!task) {
-    return null;
-  }
-
-  const { id, title, state } = task;
-
+export default function Task({ task: { id, title, state }, onArchiveTask, onPinTask }) {
   return (
     <div className={`list-item ${state}`}>
       <label htmlFor={`archiveTask-${id}`} aria-label={`archiveTask-${id}`} className="checkbox">
@@ -21,8 +13,17 @@ export default function Task({ task, onArchiveTask, onPinTask }) {
       </label>
 
       <label htmlFor={`title-${id}`} aria-label={title} className="title">
-        <input type="text" value={title} readOnly={true} name="title" id={`title-${id}`} placeholder="Input title" />
+        <input
+          type="text"
+          value={title}
+          readOnly={true}
+          name="title"
+          id={`title-${id}`}
+          placeholder="Input title"
+          style={{ backgroundColor: "red" }}
+        />
       </label>
+
       {state !== "TASK_ARCHIVED" && (
         <button
           className="pin-button"
@@ -37,19 +38,3 @@ export default function Task({ task, onArchiveTask, onPinTask }) {
     </div>
   );
 }
-
-Task.propTypes = {
-  /** Composition of the task */
-  task: PropTypes.shape({
-    /** Id of the task */
-    id: PropTypes.string.isRequired,
-    /** Title of the task */
-    title: PropTypes.string.isRequired,
-    /** Current state of the task */
-    state: PropTypes.string.isRequired,
-  }).isRequired,
-  /** Event to change the task to archived */
-  onArchiveTask: PropTypes.func.isRequired,
-  /** Event to change the task to pinned */
-  onPinTask: PropTypes.func.isRequired,
-};
